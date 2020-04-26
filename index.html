@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+	
+	<meta charset="utf-8" />
+	<link rel="stylesheet" type="text/css" href="style.css" />
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.js"></script>	
+	<title>Personnalités Eleczoo</title>
+
+</head>
+
+<body>
+
+	<div class="charts">
+		<div><canvas id= "myChart1" ></canvas></div>	
+		<div><canvas id= "myChart2" ></canvas></div>
+		<div><canvas id= "myChart3" ></canvas></div>	
+		<div><canvas id= "myChart4" ></canvas></div>
+		<div><canvas id= "myChart5" ></canvas></div>
+		<div><canvas id= "myChart6" ></canvas></div>	
+		<div><canvas id= "myChart7" ></canvas></div>
+		<div><canvas id= "myChart8" ></canvas></div>
+		<div><canvas id= "myChart9" ></canvas></div>	
+		<div><canvas id="myChart10" ></canvas></div>
+		<div><canvas id="myChart11" ></canvas></div>
+		<div><canvas id="myChart12" ></canvas></div>
+		<div><canvas id="myChart13" ></canvas></div>
+		<div><canvas id="myChart14" ></canvas></div>
+		<div><canvas id="myChart15" ></canvas></div>
+		<div><canvas id="myChart16" ></canvas></div>
+	</div>
+
+	<div class="links">
+		<p>Liens des test pour ceux qui voudraient être ajoutés aux graphs (Envoyez des screens COMPLETS de vos résultats sur le channel "test" du discord)</p>
+		<ol>
+			<li><a href="https://www.idrlabs.com/racism-scales/test.php">Test de racisme</a></li>
+			<li><a href="https://www.idrlabs.com/multidimensional-depression/test.php">Test de depression</a></li>
+			<li><a href="https://www.idrlabs.com/dark-triad/test.php">Test de Triade sombre</a></li>
+			<li><a href="https://www.idrlabs.com/psychopathy-spectrum/test.php">Test de psychopathie</a></li>
+			<li><a href="https://www.idrlabs.com/fr/part-ombre-de-personnalite/test.php">Test de part D'ombre</a></li>
+			<li><a href="https://www.idrlabs.com/ambivalent-sexism/test.php">Test de sexisme</a></li>
+			<li><a href="https://www.idrlabs.com/homophobia/test.php">Test d'homophobie</a></li>
+			<li><a href="https://www.idrlabs.com/fascism/test.php">Test de Fascisme</a></li>
+		</ol>
+	</div>
+
+
+
+	<script>
+		console.log("Script started");
+
+		let gCategories = [];
+		let gNames = [];
+		let gData = [];
+		let ctxs = [];
+		let chartsContexts = [ "myChart1", "myChart2", "myChart3", "myChart4", "myChart5", "myChart6", "myChart7", "myChart8", "myChart9", "myChart10", "myChart11", "myChart12", "myChart13", "myChart14", "myChart15", "myChart16"];
+		let chartName = [];
+
+		drawChart();
+	
+		async function createCtx()
+		{
+			await getData(); 
+
+			//création des contextes
+			for (let i = 1; i < chartsContexts.length+1  ; i++) 
+			{
+				ctxs[i] = new Chart(document.getElementById(chartsContexts[i-1]).getContext('2d'));	
+				console.log("i :", i);
+			}
+			console.log("Contexts created");
+		}
+
+		
+
+		async function getData()
+		{
+			// Get the data from the csv
+			const response = await fetch('data.csv');
+			const data = await response.text();
+
+			//Parse the data
+			const table = data.split('\n');
+
+			//Names (row 0)
+			const names = table[0].split(';').slice(1)
+			gNames.push(...names);
+
+			//Categories
+			table.forEach(row => {
+				const col = row.split(';'); //get the columns
+				gData.push(col.slice(1));
+
+				const categories = col[0];
+				gCategories.push(categories);
+
+			});
+			console.log("Data has been received");
+		}
+
+		async function drawChart()
+		{
+			
+			await createCtx();
+			
+			
+
+			for (let x = 1; x < chartsContexts.length+1; x++) 
+			{
+				console.log("x :", x);
+				chartName[x] = new Chart(ctxs[x] , 
+				{
+					type: 'horizontalBar',
+
+					data:
+					{
+						labels: gNames,
+						datasets: 
+						[
+							{
+								label: gCategories[x],
+								data : gData[x],
+								backgroundColor: 
+								[
+									'rgba(255, 99, 132, 0.2)',
+									'rgba(54, 162, 235, 0.2)',
+									'rgba(142, 68, 173, 0.2)',
+									'rgba(255, 206, 86, 0.2)',
+									'rgba(75, 192, 192, 0.2)',
+									'rgba(153, 102, 255, 0.8)',
+									'rgba(255, 159, 64, 0.2)'
+								],
+								borderColor:
+								[
+									'rgba(255, 99, 132, 1)',
+									'rgba(54, 162, 235, 1)',
+									'rgba(142, 68, 173, 1)',
+									'rgba(255, 206, 86, 1)',
+									'rgba(75, 192, 192, 1)',
+									'rgba(153, 102, 255, 1)',
+									'rgba(255, 159, 64, 1)'
+								],
+								borderWidth: 1,
+							}
+						]
+					},
+
+					options:
+					{
+						responsive: true,
+						maintainAspectRatio: false,
+						layout:{padding:{ left: 70,right: 30, }},
+						label:{display: true,},
+						scales:
+						{
+							xAxes:
+							[{
+								ticks:
+								{
+									min: 0,
+									max: 100,
+									stepSize: 10,
+									fontColor: 'rgb(224, 224, 224)',
+									fontSize: 20,
+									fontFamily: 'Arial',
+								},
+							}],
+
+							yAxes:
+							[{
+								ticks:
+								{
+									autoSkip: false,
+									fontColor: 'rgb(224, 224, 224)',
+									fontSize: 20,
+									fontFamily: 'Arial',
+								},
+								gridLines:{display:false,},
+							}],
+						},
+						
+						tooltips:{caretAlign: 'right',xPadding: 200,yPadding: 10,},
+						legend:
+						{
+							labels:
+							{
+								defaultFontFamilly: 'Arial',
+								fontSize: 20,
+								fontColor: 'rgb(224, 224, 224)',
+								boxWidth: 0,
+							},
+						},
+					}
+					
+				});
+				
+			}
+
+			
+		}
+
+		
+	</script>
+	
+</body>
+
+</html>

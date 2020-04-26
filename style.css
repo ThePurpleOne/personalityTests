@@ -1,0 +1,64 @@
+body
+{
+	margin-left: 40px;
+	margin-top: 40px;
+	/* background-color: #2E3440; */
+	/* background-color: rgba(59, 66, 82, 1); */
+	background-color: rgb(46, 52, 64);
+
+	/* background-image: url("back.png"); */
+}
+
+
+
+.charts > div
+{
+	display: block;
+	margin: 0;
+	/* border: 5px solid rgba(59, 66, 82, 0.5); */
+	
+	background-color: rgba(59, 66, 82, 0.5);
+	opacity: 1;
+	position: relative;	
+	height: 44vh;
+	width: 95vw;
+}
+
+.charts
+{
+	
+}
+
+canvas
+{
+	margin: 0;
+}
+
+.links > *
+{
+	font-size: 20px;
+	color: rgb(224, 224, 224);
+	position: inline center;
+	font-family: 'Arial';
+}
+
+.links > p
+{
+	font-weight: bolder;
+}
+
+.links > ol > li > a 
+{
+	font-size: 25px;
+	color: rgb(224, 224, 224);
+	position: inline center;
+}
+
+.links > ol > li > a:hover
+{
+	color: rgba(29, 69, 202, 0.774);
+	position: inline center;
+}
+
+
+
